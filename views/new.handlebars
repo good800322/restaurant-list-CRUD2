@@ -1,0 +1,81 @@
+<header>
+  <!-- navigation -->
+  <nav class="navbar navbar-light bg-light">
+    <div class="container">
+      <a class="navbar-brand" href="/">
+        <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+          width="30" height="30" class="d-inline-block align-top" alt="好。吃">
+        我的餐廳清單
+      </a>
+    </div>
+  </nav>
+
+  <div class="banner"></div>
+</header>
+
+
+<h1 class="mb-1 restaurant-show-title">新增</h1>
+<div class="container">
+  <div class="row">
+    <div class="col-12 col-md-10 mx-auto">
+      <form action="/restaurants" method="POST">
+        <div class="form-group">
+          <label for="InputName">
+            <i class="fas fa-store-alt pr-2"></i>
+            名稱：
+          </label>
+          <input type="text" class="form-control" id="InputName" name="name" placeholder="name">
+        </div>
+        <div class="form-group">
+          <label for="InputCategory">
+            <i class="fas fa-utensils pr-2"></i>
+            類別：
+          </label>
+          <input type="text" class="form-control" id="InputCategory" name="category" placeholder="category">
+        </div>
+        <div class="form-group">
+          <label for="InputRating">
+            <i class="fas fa-star pr-2"></i>
+            評分：
+          </label>
+          <input type="text" class="form-control" id="InputRating" name="rating" placeholder="rating">
+        </div>
+        <div class="form-group">
+          <label for="InputLocation">
+            <i class="fas fa-map-marker-alt pr-2"></i>
+            地址：
+          </label>
+          <input type="text" class="form-control" id="InputLocation" name="location" placeholder="location">
+        </div>
+        <div class="form-group">
+          <label for="InputMap">
+            <i class="fas fa-location-arrow pr-2"></i>
+            goole map：
+          </label>
+          <input type="text" class="form-control" id="InputMap" name="google_map" placeholder="google map">
+        </div>
+        <div class="form-group">
+          <label for="InputPhone">
+            <i class="fas fa-mobile-alt pr-2"></i>
+            電話：
+          </label>
+          <input type="text" class="form-control" id="InputPhone" name="phone" placeholder="phone">
+        </div>
+        <div class="form-group">
+          <label for="InputDescription">
+            <i class="fas fa-file-signature pr-2"></i>
+            描述：
+          </label>
+          <input type="text" class="form-control" id="InputDescription" name="description" placeholder="description">
+        </div>
+        <div class="form-group">
+          <label for="InputImage">
+            圖片：
+          </label>
+          <input type="text" class="form-control" id="InputImage" name="image" placeholder="image">
+        </div>
+        <button type="submit" class="btn btn-outline-secondary btn-lg font-weight-lighter mx-2">Submit</button>
+        <a href="/restaurants" type="button" class="btn btn-outline-info btn-lg font-weight-lighter mx-2">back</a>
+      </form>
+    </div>
+  </div>

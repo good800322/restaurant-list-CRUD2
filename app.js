@@ -3,6 +3,7 @@ const app = express()
 const port = 3000
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
+const bodyParser = require('body-parser')
 
 //set template engine
 app.engine('handlebars', exphbs({ defaultLayout: 'main' }))
@@ -25,16 +26,12 @@ db.once('open', () => {
 //載入model
 const Restaurant = require('./models/restaurantList.js')
 
-
+//introduce body-parser
+app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.get('/', (req, res) => {
-  Restaurant.find()
-    .lean()
-    .exec((err, restaurant) => {
-      if (err) console.error(err)
-      res.render('index', { restaurant: restaurant })
-    })
+  res.redirect('/restaurants')
 })
 app.get('/restaurants', (req, res) => {
   Restaurant.find()
@@ -44,20 +41,48 @@ app.get('/restaurants', (req, res) => {
       res.render('index', { restaurant: restaurant })
     })
 })
-app.get('/restaurants/:id', (req, res) => {
-  res.send('detail of the restaurant')
-})
 app.get('/restaurants/new', (req, res) => {
-  res.send('the page for creating')
+  res.render('new')
 })
-app.post('/restaurants/', (req, res) => {
-  res.send('creating')
+
+app.post('/restaurants', (req, res) => {
+  const restaurant = new Restaurant(req.body)
+  restaurant.save(err => {
+    if (err) console.error(err)
+    return res.redirect('/restaurants')
+  })
+
+})
+
+app.get('/restaurants/:id', (req, res) => {
+  Restaurant.findById(req.params.id)
+    .lean()
+    .exec((err, restaurant) => {
+      if (err) console.error(err)
+      res.render('detail', { restaurant: restaurant })
+    })
 })
 app.get('/restaurants/:id/edit', (req, res) => {
-  res.send('the edit page')
+  Restaurant.findById(req.params.id)
+    .lean()
+    .exec((err, restaurant) => {
+      if (err) console.error(err)
+      res.render('edit', { restaurant: restaurant })
+    })
 })
 app.post('/restaurants/:id/edit', (req, res) => {
-  res.send('for edition')
+  Restaurant.findById(req.params.id, (err, restaurant) => {
+    if (err) console.error(err)
+    for (let key in restaurant) {
+      if (req.body[key]) {
+        restaurant[key] = req.body[key]
+      }
+    }
+    restaurant.save(err => {
+      if (err) console.error(err)
+      res.redirect(`/restaurants/${req.params.id}`)
+    })
+  })
 })
 app.post('/restaurants/:id/delete', (req, res) => {
   res.send('for delete')
