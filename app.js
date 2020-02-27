@@ -85,7 +85,15 @@ app.post('/restaurants/:id/edit', (req, res) => {
   })
 })
 app.post('/restaurants/:id/delete', (req, res) => {
-  res.send('for delete')
+  console.log(req.params.id)
+  Restaurant.findById(req.params.id, (err, restaurant) => {
+    console.log(req.params.id)
+    if (err) console.error(err)
+    restaurant.remove(err => {
+      if (err) console.error(err)
+      return res.redirect('/restaurants')
+    })
+  })
 })
 
 app.listen(port, () => {

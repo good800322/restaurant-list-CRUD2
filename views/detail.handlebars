@@ -55,8 +55,8 @@
     <div class="col-12 d-flex justify-content-end mx-1">
       <a href="/restaurants/{{{restaurant._id}}}/edit" type="button"
         class="btn btn-outline-info btn-lg font-weight-lighter mx-2">edit</a>
-      <form action="/restaurants/:id/delete" method="POST" style="display: inline">
-        <button style="submit" type="button" class="btn btn-outline-danger btn-lg font-weight-lighter">delete</button>
+      <form action="/restaurants/{{{restaurant._id}}}/delete" method="POST" style="display: inline">
+        <button type="submit button" class="btn btn-outline-danger btn-lg font-weight-lighter">delete</button>
       </form>
     </div>
   </div>
