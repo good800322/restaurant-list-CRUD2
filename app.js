@@ -31,9 +31,6 @@ app.use(bodyParser.urlencoded({ extended: true }))
 
 
 app.get('/', (req, res) => {
-  res.redirect('/restaurants')
-})
-app.get('/restaurants', (req, res) => {
   Restaurant.find()
     .lean()
     .exec((err, restaurant) => {
@@ -41,19 +38,24 @@ app.get('/restaurants', (req, res) => {
       res.render('index', { restaurant: restaurant })
     })
 })
+//餐廳列表
+app.get('/restaurants', (req, res) => {
+  res.redirect('/')
+})
+//取得新增餐廳頁面
 app.get('/restaurants/new', (req, res) => {
   res.render('new')
 })
-
+//新增餐廳
 app.post('/restaurants', (req, res) => {
   const restaurant = new Restaurant(req.body)
+  //console.log(restaurant)
   restaurant.save(err => {
     if (err) console.error(err)
     return res.redirect('/restaurants')
   })
-
 })
-
+//取得餐廳詳細資料
 app.get('/restaurants/:id', (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
@@ -62,6 +64,7 @@ app.get('/restaurants/:id', (req, res) => {
       res.render('detail', { restaurant: restaurant })
     })
 })
+//取得編輯頁面
 app.get('/restaurants/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
@@ -70,6 +73,7 @@ app.get('/restaurants/:id/edit', (req, res) => {
       res.render('edit', { restaurant: restaurant })
     })
 })
+//編輯功能
 app.post('/restaurants/:id/edit', (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) console.error(err)
@@ -84,16 +88,27 @@ app.post('/restaurants/:id/edit', (req, res) => {
     })
   })
 })
+//刪除功能
 app.post('/restaurants/:id/delete', (req, res) => {
-  console.log(req.params.id)
   Restaurant.findById(req.params.id, (err, restaurant) => {
-    console.log(req.params.id)
+    // console.log(req.params.id)
+    // console.log(restaurant._id)
     if (err) console.error(err)
     restaurant.remove(err => {
       if (err) console.error(err)
       return res.redirect('/restaurants')
     })
   })
+})
+//搜尋功能
+app.post('/search', (req, res) => {
+  Restaurant.find()
+    .lean()
+    .exec((err, restaurant) => {
+      if (err) console.error(err)
+      restaurant = restaurant.filter(item => item.name.toLowerCase().includes(req.body.keyword.toLowerCase()) || item.category.toLowerCase().includes(req.body.keyword.toLowerCase()))
+      return res.render('search', { restaurant: restaurant })
+    })
 })
 
 app.listen(port, () => {

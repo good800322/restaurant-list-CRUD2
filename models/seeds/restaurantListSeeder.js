@@ -9,7 +9,6 @@ db.on('error', () => {
 })
 db.once('open', () => {
   console.log('mongodb connected')
-  console.log(...restaurantList.results)
   Restaurant.create(...restaurantList.results)
   console.log('done')
 })
