@@ -56,7 +56,8 @@
       <a href="/restaurants/{{{restaurant._id}}}/edit" type="button"
         class="btn btn-outline-info btn-lg font-weight-lighter mx-2">edit</a>
       <a href="/restaurants" type="button" class="btn btn-outline-info btn-lg font-weight-lighter mx-2">back</a>
-      <form action="/restaurants/{{{restaurant._id}}}/delete?_method=DELETE" method="POST" style="display: inline">
+      <form action="/restaurants/{{{restaurant._id}}}/delete?_method=DELETE" method="POST" style="display: inline"
+        onsubmit="return confirm('確定要刪除這份資料？');">
         <button type="submit button" class="btn btn-outline-danger btn-lg font-weight-lighter">delete</button>
       </form>
     </div>
