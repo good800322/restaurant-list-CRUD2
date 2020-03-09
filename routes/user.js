@@ -3,7 +3,7 @@ const router = express.Router()
 
 //register page
 router.get('/register', (req, res) => {
-  res.send('this is registration page')
+  res.render('registration')
 })
 
 //register
@@ -13,7 +13,7 @@ router.post('/register', (req, res) => {
 
 //login page
 router.get('/login', (req, res) => {
-  res.send('this is login page')
+  res.render('login')
 })
 
 //login

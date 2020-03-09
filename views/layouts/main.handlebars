@@ -13,9 +13,26 @@
 </head>
 
 <body>
-  {{!-- partial contemplate here --}}
-  {{{body}}}
-  {{!-- modal for warning when canceling --}}
+  <header>
+    <!-- navigation -->
+    <nav class="navbar navbar-light bg-light">
+      <div class="container">
+        <a class="navbar-brand" href="/">
+          <img src="https://assets-lighthouse.s3.amazonaws.com/uploads/image/file/6227/restaurant-list-logo.png"
+            width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
+          我的餐廳清單
+        </a>
+        <a href="/restaurants/new"
+          class="d-inline-flex justify-content-center align-items-center bg-info text-white rounded-circle"
+          style="width: 50px; height: 50px;">新增</a>
+      </div>
+  </header>
+  </nav>
+  <div class="container">
+    {{!-- partial contemplate here --}}
+    {{{body}}}
+    {{!-- modal for warning when canceling --}}
+  </div>
 </body>
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
   integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
