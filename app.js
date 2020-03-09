@@ -6,6 +6,7 @@ const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
 //introduce method-override
 const methodOverride = require('method-override')
+const session = require('express-session')
 app.use(methodOverride('_method'))
 
 //set template engine
@@ -26,6 +27,13 @@ db.once('open', () => {
   console.log('mongodb connected!')
 })
 
+//設定session
+app.use(session({
+  secret: 'your secret key',
+  resave: false,    //不 每次重新session
+  saveUninitialized: true   //儲存未初始化之session
+}))
+
 //載入model
 const Restaurant = require('./models/restaurantList.js')
 const User = require('./models/user.js')
@@ -34,15 +42,7 @@ const User = require('./models/user.js')
 app.use(bodyParser.urlencoded({ extended: true }))
 
 
-app.get('/', (req, res) => {
-  Restaurant.find()
-    .lean()
-    .exec((err, restaurant) => {
-      if (err) console.error(err)
-      res.render('index', { restaurant: restaurant })
-    })
-})
-
+app.use('/', require('./routes/home.js'))
 app.use('/restaurants', require('./routes/restaurantList.js'))
 //routes for users
 app.use('/user', require('./routes/user.js'))
