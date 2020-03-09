@@ -43,7 +43,8 @@ app.get('/', (req, res) => {
 })
 
 app.use('/restaurants', require('./routes/restaurantList.js'))
-// app.use('/restaurants/sort', require('./routes/sort.js'))
+//routes for users
+app.use('/user', require('./routes/user.js'))
 
 
 app.listen(port, () => {
