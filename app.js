@@ -28,6 +28,7 @@ db.once('open', () => {
 
 //載入model
 const Restaurant = require('./models/restaurantList.js')
+const User = require('./models/user.js')
 
 //introduce body-parser
 app.use(bodyParser.urlencoded({ extended: true }))
