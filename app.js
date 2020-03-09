@@ -7,6 +7,9 @@ const bodyParser = require('body-parser')
 //introduce method-override
 const methodOverride = require('method-override')
 const session = require('express-session')
+// 載入 passport
+const passport = require('passport')
+
 app.use(methodOverride('_method'))
 
 //set template engine
@@ -33,6 +36,17 @@ app.use(session({
   resave: false,    //不 每次重新session
   saveUninitialized: true   //儲存未初始化之session
 }))
+//使用passport
+app.use(passport.initialize())
+app.use(passport.session())
+
+// 載入 Passport config
+require('./config/passport.js')(passport)
+// 登入後可以取得使用者的資訊方便我們在 view 裡面直接使用
+app.use((req, res, next) => {
+  res.locals.user = req.body.user
+  next()
+})
 
 //載入model
 const Restaurant = require('./models/restaurantList.js')
