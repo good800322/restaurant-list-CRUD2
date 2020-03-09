@@ -22,9 +22,20 @@
             width="30" height="30" class="d-inline-block align-top" alt="我的餐廳清單">
           我的餐廳清單
         </a>
-        <a href="/restaurants/new"
-          class="d-inline-flex justify-content-center align-items-center bg-info text-white rounded-circle"
-          style="width: 50px; height: 50px;">新增</a>
+        <div class="d-flex justify-content-end">
+          {{#if isAuthenticated}}
+          <a href="/restaurants/new"
+            class="mr-1 d-inline-flex justify-content-center align-items-center bg-info text-white rounded-circle"
+            style="width: 50px; height: 50px;">新增</a>
+          <a href="/user/logout"
+            class="d-inline-flex justify-content-center align-items-center bg-secondary text-white rounded-circle"
+            style="width: 50px; height: 50px;">logout</a>
+          {{else}}
+          <a href="/user/login"
+            class="d-inline-flex justify-content-center align-items-center bg-info text-white rounded-circle"
+            style="width: 50px; height: 50px;">login</a>
+          {{/if}}
+        </div>
       </div>
   </header>
   </nav>

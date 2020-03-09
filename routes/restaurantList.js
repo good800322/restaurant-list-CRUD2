@@ -1,17 +1,18 @@
 const express = require('express')
 const Restaurant = require('../models/restaurantList.js')
 const router = express.Router()
+const { authenticated } = require('../config/auth')
 
 //餐廳列表
-router.get('/', (req, res) => {
+router.get('/', authenticated, (req, res) => {
   res.redirect('/')
 })
 //取得新增餐廳頁面
-router.get('/new', (req, res) => {
+router.get('/new', authenticated, (req, res) => {
   res.render('new')
 })
 //新增餐廳
-router.post('/', (req, res) => {
+router.post('/', authenticated, (req, res) => {
   const restaurant = new Restaurant(req.body)
   //console.log(restaurant)
   restaurant.save(err => {
@@ -20,7 +21,7 @@ router.post('/', (req, res) => {
   })
 })
 //取得餐廳詳細資料
-router.get('/:id', (req, res) => {
+router.get('/:id', authenticated, (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
     .exec((err, restaurant) => {
@@ -29,7 +30,7 @@ router.get('/:id', (req, res) => {
     })
 })
 //取得編輯頁面
-router.get('/:id/edit', (req, res) => {
+router.get('/:id/edit', authenticated, (req, res) => {
   Restaurant.findById(req.params.id)
     .lean()
     .exec((err, restaurant) => {
@@ -38,7 +39,7 @@ router.get('/:id/edit', (req, res) => {
     })
 })
 //編輯功能
-router.put('/:id/edit', (req, res) => {
+router.put('/:id/edit', authenticated, (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     if (err) console.error(err)
     for (let key in restaurant) {
@@ -53,7 +54,7 @@ router.put('/:id/edit', (req, res) => {
   })
 })
 //刪除功能
-router.delete('/:id/delete', (req, res) => {
+router.delete('/:id/delete', authenticated, (req, res) => {
   Restaurant.findById(req.params.id, (err, restaurant) => {
     // console.log(req.params.id)
     // console.log(restaurant._id)
@@ -65,7 +66,7 @@ router.delete('/:id/delete', (req, res) => {
   })
 })
 //搜尋功能
-router.get('/search', (req, res) => {
+router.get('/search', authenticated, (req, res) => {
   Restaurant.find()
     .lean()
     .exec((err, restaurant) => {
@@ -75,7 +76,7 @@ router.get('/search', (req, res) => {
     })
 })
 
-router.get('/sort/name', (req, res) => {
+router.get('/sort/name', authenticated, (req, res) => {
   Restaurant.find()
     .sort({ name: 'asc' })
     .lean()
@@ -84,7 +85,7 @@ router.get('/sort/name', (req, res) => {
       return res.render('index', { restaurant: restaurant })
     })
 })
-router.get('/sort/category', (req, res) => {
+router.get('/sort/category', authenticated, (req, res) => {
   Restaurant.find()
     .sort({ category: 'asc' })
     .lean()
@@ -93,7 +94,7 @@ router.get('/sort/category', (req, res) => {
       return res.render('index', { restaurant: restaurant })
     })
 })
-router.get('/sort/rating', (req, res) => {
+router.get('/sort/rating', authenticated, (req, res) => {
   Restaurant.find()
     .sort({ rating: 'asc' })
     .lean()

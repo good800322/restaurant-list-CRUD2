@@ -8,7 +8,7 @@ const LocalStrategy = require('passport-local').Strategy
 module.exports = passport => {
   //strategy
   passport.use(
-    new LocalStrategy({ usernameField: email }, (email, password, done) => {
+    new LocalStrategy({ usernameField: 'email' }, (email, password, done) => {
       User.findOne({ email: email })
         .then(user => {
           if (!user) {
