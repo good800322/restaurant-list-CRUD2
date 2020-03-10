@@ -9,8 +9,8 @@
 3. 安裝 npm 套件
 > 在 Terminal 輸入 npm install 指令
 4. 載入seeds
-> cd models/seeds/  node seeder.js
-4. 啟動伺服器，執行 app.js 檔案
+> cd models/seeds  後 node seeder.js
+5. 啟動伺服器，執行 app.js 檔案
 > 在 Terminal 輸入 npm run dev 指令 
 ## Features：
 1. 使用者可創建帳號或使用facebook登入
