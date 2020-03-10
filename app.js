@@ -1,6 +1,10 @@
 const express = require('express')
 const app = express()
 const port = 3000
+//判別開發環境
+if (process.env.NODE_ENV !== 'production') {
+  require('dotenv').config()
+}
 const exphbs = require('express-handlebars')
 const mongoose = require('mongoose')
 const bodyParser = require('body-parser')
@@ -20,7 +24,7 @@ app.set('view engine', 'handlebars')
 app.use(express.static('public'))
 
 //connect to mongodb
-mongoose.connect('mongodb://localhost/restaurantList', { useNewUrlParser: true, useUnifiedTopology: true })
+mongoose.connect('mongodb://localhost/restaurantList', { useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true })
 const db = mongoose.connection
 
 db.on('error', () => {
@@ -61,6 +65,8 @@ app.use('/', require('./routes/home.js'))
 app.use('/restaurants', require('./routes/restaurantList.js'))
 //routes for users
 app.use('/user', require('./routes/user.js'))
+//route for auth
+app.use('/auth', require('./routes/auth.js'))
 
 
 app.listen(port, () => {

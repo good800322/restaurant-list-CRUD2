@@ -3,6 +3,7 @@ const router = express.Router()
 const mongoose = require('mongoose')
 const User = require('../models/user.js')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 
 //register page
 router.get('/register', (req, res) => {
@@ -28,11 +29,19 @@ router.post('/register', (req, res) => {
           name,
           password
         })
-        newUser.save()
-          .then(user => {
-            res.redirect('/')
+        //使用bcrypt
+        bcrypt.genSalt(10, (err, salt) => {
+          bcrypt.hash(newUser.password, salt, (err, hash) => {
+            if (err) throw err
+            newUser.password = hash
+
+            newUser.save()
+              .then(user => {
+                res.redirect('/')
+              })
+              .catch(err => console.log(err))
           })
-          .catch(err => console.log(err))
+        })
       }
     })
 })

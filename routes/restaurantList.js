@@ -3,6 +3,7 @@ const Restaurant = require('../models/restaurantList.js')
 const router = express.Router()
 const { authenticated } = require('../config/auth')
 
+
 //餐廳列表
 router.get('/', authenticated, (req, res) => {
   res.redirect('/')
@@ -13,6 +14,7 @@ router.get('/new', authenticated, (req, res) => {
 })
 //新增餐廳
 router.post('/', authenticated, (req, res) => {
+  req.body['userId'] = req.user._id
   const restaurant = new Restaurant(req.body)
   //console.log(restaurant)
   restaurant.save(err => {
@@ -22,7 +24,7 @@ router.post('/', authenticated, (req, res) => {
 })
 //取得餐廳詳細資料
 router.get('/:id', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id)
+  Restaurant.findOne({ userId: req.user._id, _id: req.params.id })
     .lean()
     .exec((err, restaurant) => {
       if (err) console.error(err)
@@ -31,7 +33,7 @@ router.get('/:id', authenticated, (req, res) => {
 })
 //取得編輯頁面
 router.get('/:id/edit', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id)
+  Restaurant.findOne({ userId: req.user._id, _id: req.params.id })
     .lean()
     .exec((err, restaurant) => {
       if (err) console.error(err)
@@ -40,7 +42,7 @@ router.get('/:id/edit', authenticated, (req, res) => {
 })
 //編輯功能
 router.put('/:id/edit', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ userId: req.user._id, _id: req.params.id }, (err, restaurant) => {
     if (err) console.error(err)
     for (let key in restaurant) {
       if (req.body[key]) {
@@ -55,7 +57,7 @@ router.put('/:id/edit', authenticated, (req, res) => {
 })
 //刪除功能
 router.delete('/:id/delete', authenticated, (req, res) => {
-  Restaurant.findById(req.params.id, (err, restaurant) => {
+  Restaurant.findOne({ userId: req.user._id, _id: req.params.id }, (err, restaurant) => {
     // console.log(req.params.id)
     // console.log(restaurant._id)
     if (err) console.error(err)
@@ -67,7 +69,7 @@ router.delete('/:id/delete', authenticated, (req, res) => {
 })
 //搜尋功能
 router.get('/search', authenticated, (req, res) => {
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .lean()
     .exec((err, restaurant) => {
       if (err) console.error(err)
@@ -77,7 +79,7 @@ router.get('/search', authenticated, (req, res) => {
 })
 
 router.get('/sort/name', authenticated, (req, res) => {
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .sort({ name: 'asc' })
     .lean()
     .exec((err, restaurant) => {
@@ -86,7 +88,7 @@ router.get('/sort/name', authenticated, (req, res) => {
     })
 })
 router.get('/sort/category', authenticated, (req, res) => {
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .sort({ category: 'asc' })
     .lean()
     .exec((err, restaurant) => {
@@ -95,7 +97,7 @@ router.get('/sort/category', authenticated, (req, res) => {
     })
 })
 router.get('/sort/rating', authenticated, (req, res) => {
-  Restaurant.find()
+  Restaurant.find({ userId: req.user._id })
     .sort({ rating: 'asc' })
     .lean()
     .exec((err, restaurant) => {
