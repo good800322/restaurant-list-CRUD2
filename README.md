@@ -1,4 +1,4 @@
-![cover](./cover1.png)
+![cover1](./cover1.png)
 ## Project Title：
 美食餐廳網，在這裡可以找到想要的餐廳、瀏覽詳細資訊與新增編輯刪除資料。
 ## Installing：
